@@ -1,39 +1,81 @@
-// Task 1: Select & Read
+// Task 1: Keyboard Events
+const chatInput = document.getElementById("chat-input");
+const chatMessages = document.getElementById("chat-messages");
 
-// a) Select the heading and log its text content
-const heading = document.getElementById("main-heading");
-console.log(heading.textContent);
-
-// b) Select the paragraph and log its text content
-const subText = document.getElementById("sub-text");
-console.log(subText.textContent);
-
-// c) Select all <li> elements inside #color-list and log the count
-const listItems = document.querySelectorAll("#color-list li");
-console.log(listItems.length);
-
-// Task 2: Change Text
-
-// a) Change the message text
-const message = document.getElementById("message");
-message.textContent = "Hello from JavaScript!";
-
-// b) Change the info text
-const info = document.getElementById("info");
-info.textContent = "This information has been updated.";
+chatInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+        const newMessage = document.createElement("li");
+        newMessage.textContent = chatInput.value;
+        chatMessages.appendChild(newMessage);
+        chatInput.value = "";
+    }
+});
 
 
-// Task 3: Change Colors & Styles
+// Task 2: Timers
 
-// a) Change heading color to blue
-const colorBox = document.getElementById("color-box");
-colorBox.style.color = "blue";
+// setTimeout
+const alertBtn = document.getElementById("alert-btn");
+const alertMsg = document.getElementById("alert-msg");
 
-// b) Change background color to yellow
-const highlight = document.getElementById("highlight");
-highlight.style.backgroundColor = "yellow";
+alertBtn.addEventListener("click", function () {
+    alertMsg.style.display = "block";
 
-// c) Change font size and text color
-const textSize = document.getElementById("text-size");
-textSize.style.fontSize = "24px";
-textSize.style.color = "red";
+    setTimeout(function () {
+        alertMsg.style.display = "none";
+    }, 3000);
+});
+
+// setInterval
+const startBtn = document.getElementById("start-btn");
+const stopBtn = document.getElementById("stop-btn");
+const counterDisplay = document.getElementById("counter-display");
+
+let count = 0;
+let timerId;
+
+startBtn.addEventListener("click", function () {
+    clearInterval(timerId);
+
+    timerId = setInterval(function () {
+        count++;
+        counterDisplay.textContent = count;
+    }, 1000);
+});
+
+stopBtn.addEventListener("click", function () {
+    clearInterval(timerId);
+});
+
+
+// Task 3: Local Storage
+
+const nameInput = document.getElementById("name-input");
+const saveBtn = document.getElementById("save-btn");
+const greetingName = document.getElementById("greeting-name");
+
+// Load saved name
+const savedName = localStorage.getItem("savedName");
+
+if (savedName) {
+    greetingName.textContent = savedName;
+}
+
+// Save name
+saveBtn.addEventListener("click", function () {
+    const name = nameInput.value;
+
+    localStorage.setItem("savedName", name);
+    greetingName.textContent = name;
+});
+
+
+// Task 4: Event Delegation
+
+const delegationList = document.getElementById("delegation-list");
+
+delegationList.addEventListener("click", function (e) {
+    if (e.target.tagName === "LI") {
+        e.target.classList.toggle("completed");
+    }
+});
